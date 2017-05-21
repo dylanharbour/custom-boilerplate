@@ -2,13 +2,13 @@
 
 namespace App\Repositories\Frontend\Access\User;
 
-use App\Events\Backend\Access\User\UserCreated;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Access\User\SocialLogin;
+use App\Events\Backend\Access\User\UserCreated;
 use App\Events\Frontend\Auth\UserEmailConfirmed;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Notifications\Frontend\Auth\VerifyEmailNotification;

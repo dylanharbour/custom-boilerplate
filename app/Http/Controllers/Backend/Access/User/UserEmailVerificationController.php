@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Backend\Access\User;
 
 use App\Models\Access\User\User;
 use App\Http\Controllers\Controller;
-use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 use App\Http\Requests\Backend\Access\User\ManageUserRequest;
+use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 
 /**
  * Class UserEmailVerificationController.

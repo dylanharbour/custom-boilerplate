@@ -30,7 +30,7 @@ class UserEventListener
             ->log();
 
         //Send confirmation email if requested
-        if (config('access.users.confirm_email') && !$event->user->isEmailVerified()) {
+        if (config('access.users.confirm_email') && ! $event->user->isEmailVerified()) {
             $event->user->notify(new VerifyEmailNotification($event->user->email_verification_code));
         }
     }
