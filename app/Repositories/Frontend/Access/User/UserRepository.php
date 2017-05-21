@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Access\User\SocialLogin;
 use App\Events\Frontend\Auth\UserConfirmed;
 use App\Repositories\Backend\Access\Role\RoleRepository;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use App\Notifications\Frontend\Auth\ConfirmEmailNotification;
 
 /**
  * Class UserRepository.
@@ -241,7 +241,7 @@ class UserRepository extends BaseRepository
                 $updated = $user->save();
 
                 // Send the new confirmation e-mail
-                $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+                $user->notify(new ConfirmEmailNotification($user->confirmation_code));
 
                 return [
                     'success' => $updated,

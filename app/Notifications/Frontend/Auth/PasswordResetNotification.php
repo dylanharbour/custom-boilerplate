@@ -7,9 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
 /**
- * Class UserNeedsPasswordReset.
+ * Class PasswordResetNotification.
  */
-class UserNeedsPasswordReset extends Notification
+class PasswordResetNotification extends Notification
 {
     use Queueable;
     /**
@@ -20,7 +20,7 @@ class UserNeedsPasswordReset extends Notification
     public $token;
 
     /**
-     * UserNeedsPasswordReset constructor.
+     * PasswordResetNotification constructor.
      *
      * @param $token
      */

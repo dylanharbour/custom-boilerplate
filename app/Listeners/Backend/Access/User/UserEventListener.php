@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Backend\Access\User;
 
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use App\Notifications\Frontend\Auth\ConfirmEmailNotification;
 
 /**
  * Class UserEventListener.
@@ -31,7 +31,7 @@ class UserEventListener
 
         //Send confirmation email if requested
         if (config('access.users.confirm_email') && !$event->user->isConfirmed()) {
-            $event->user->notify(new UserNeedsConfirmation($event->user->confirmation_code));
+            $event->user->notify(new ConfirmEmailNotification($event->user->confirmation_code));
         }
     }
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend\Auth;
 use App\Models\Access\User\User;
 use App\Http\Controllers\Controller;
 use App\Repositories\Frontend\Access\User\UserRepository;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use App\Notifications\Frontend\Auth\ConfirmEmailNotification;
 
 /**
  * Class ConfirmAccountController.
@@ -46,7 +46,7 @@ class ConfirmAccountController extends Controller
      */
     public function sendConfirmationEmail(User $user)
     {
-        $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+        $user->notify(new ConfirmEmailNotification($user->confirmation_code));
 
         return redirect()->route('frontend.auth.login')->withFlashSuccess(trans('exceptions.frontend.auth.confirmation.resent'));
     }

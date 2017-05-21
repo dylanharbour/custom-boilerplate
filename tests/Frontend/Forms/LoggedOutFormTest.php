@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
-use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
+use App\Notifications\Frontend\Auth\ConfirmEmailNotification;
+use App\Notifications\Frontend\Auth\PasswordResetNotification;
 
 /**
  * Class LoggedOutFormTest.
@@ -170,7 +170,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
              ->seeInDatabase('password_resets', ['email' => $this->user->email]);
 
         Notification::assertSentTo([$this->user],
-            UserNeedsPasswordReset::class);
+            PasswordResetNotification::class);
     }
 
     /**

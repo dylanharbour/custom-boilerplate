@@ -7,9 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
 /**
- * Class UserNeedsConfirmation.
+ * Class ConfirmEmailNotification.
  */
-class UserNeedsConfirmation extends Notification
+class ConfirmEmailNotification extends Notification
 {
     use Queueable;
 
@@ -19,7 +19,7 @@ class UserNeedsConfirmation extends Notification
     protected $confirmation_code;
 
     /**
-     * UserNeedsConfirmation constructor.
+     * ConfirmEmailNotification constructor.
      *
      * @param $confirmation_code
      */
