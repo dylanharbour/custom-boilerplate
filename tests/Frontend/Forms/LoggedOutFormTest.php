@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 use App\Notifications\Frontend\Auth\PasswordResetNotification;
 
 /**
@@ -53,7 +52,6 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         // Check if confirmation required is on or off
         if (config('access.users.confirm_email')) {
-
             $this->visit('/register')
                  ->type($firstName, 'first_name')
                  ->type($lastName, 'last_name')
@@ -73,7 +71,6 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
             // Get the user that was inserted into the database
             $user = User::where('email', $email)->first();
-
         } else {
             $this->visit('/register')
                  ->type($firstName, 'first_name')

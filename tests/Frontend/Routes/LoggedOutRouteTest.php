@@ -4,8 +4,8 @@ use Tests\BrowserKitTestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
-use App\Events\Frontend\Auth\UserEmailConfirmed;
 use Illuminate\Support\Facades\Notification;
+use App\Events\Frontend\Auth\UserEmailConfirmed;
 use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 
 /**
