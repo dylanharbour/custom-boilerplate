@@ -34,9 +34,9 @@ class UserEventListener
     /**
      * @param $event
      */
-    public function onConfirmed($event)
+    public function onEmailConfirmed($event)
     {
-        \Log::info('User Confirmed: '.$event->user->full_name);
+        \Log::info('User Email Confirmed: '.$event->user->email);
     }
 
     /**
@@ -62,8 +62,8 @@ class UserEventListener
         );
 
         $events->listen(
-            \App\Events\Frontend\Auth\UserConfirmed::class,
-            'App\Listeners\Frontend\Auth\UserEventListener@onConfirmed'
+            \App\Events\Frontend\Auth\UserEmailConfirmed::class,
+            'App\Listeners\Frontend\Auth\UserEventListener@onEmailConfirmed'
         );
     }
 }

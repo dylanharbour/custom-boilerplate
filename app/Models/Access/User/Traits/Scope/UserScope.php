@@ -9,13 +9,13 @@ trait UserScope
 {
     /**
      * @param $query
-     * @param bool $confirmed
+     * @param bool $emailVerified
      *
      * @return mixed
      */
-    public function scopeConfirmed($query, $confirmed = true)
+    public function scopeEmailVerified($query, $emailVerified = true)
     {
-        return $query->where('confirmed', $confirmed);
+        return $query->where('email_verified', $emailVerified);
     }
 
     /**

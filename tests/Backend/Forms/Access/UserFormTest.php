@@ -43,7 +43,7 @@ class UserFormTest extends BrowserKitTestCase
              ->see('The password confirmation does not match.');
     }
 
-    public function testCreateUserConfirmedForm()
+    public function testCreateUserEmailConfirmedForm()
     {
         // Make sure our events are fired
         Event::fake();
@@ -63,8 +63,7 @@ class UserFormTest extends BrowserKitTestCase
              ->type($password, 'password')
              ->type($password, 'password_confirmation')
              ->seeIsChecked('status')
-             ->seeIsChecked('confirmed')
-             ->dontSeeIsChecked('confirmation_email')
+             ->seeIsChecked('email_verified')
              ->check('assignees_roles[2]')
              ->check('assignees_roles[3]')
              ->press('Create')
@@ -76,7 +75,7 @@ class UserFormTest extends BrowserKitTestCase
                      'last_name' => $lastName,
                      'email' => $email,
                      'status' => 1,
-                     'confirmed' => 1,
+                     'email_verified' => 1,
                  ])
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => 4, 'role_id' => 2])
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => 4, 'role_id' => 3]);
@@ -84,7 +83,7 @@ class UserFormTest extends BrowserKitTestCase
         Event::assertDispatched(UserCreated::class);
     }
 
-    public function testCreateUserUnconfirmedForm()
+    public function testCreateUserUnVerifiedForm()
     {
         // Make sure our events are fired
         Event::fake();
@@ -104,8 +103,7 @@ class UserFormTest extends BrowserKitTestCase
              ->type($password, 'password')
              ->type($password, 'password_confirmation')
              ->seeIsChecked('status')
-             ->uncheck('confirmed')
-             ->check('confirmation_email')
+             ->uncheck('email_verified')
              ->check('assignees_roles[2]')
              ->check('assignees_roles[3]')
              ->press('Create')
@@ -117,7 +115,7 @@ class UserFormTest extends BrowserKitTestCase
                      'last_name' => $lastName,
                      'email' => $email,
                      'status' => 1,
-                     'confirmed' => 0,
+                     'email_verified' => 0,
                  ])
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => 4, 'role_id' => 2])
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => 4, 'role_id' => 3]);
@@ -169,7 +167,7 @@ class UserFormTest extends BrowserKitTestCase
              ->type('New', 'last_name')
              ->type('user2@user.com', 'email')
              ->uncheck('status')
-             ->uncheck('confirmed')
+             ->uncheck('email_verified')
              ->check('assignees_roles[2]')
              ->uncheck('assignees_roles[3]')
              ->press('Update')
@@ -182,7 +180,7 @@ class UserFormTest extends BrowserKitTestCase
                      'last_name'      => 'New',
                      'email'     => 'user2@user.com',
                      'status'    => 0,
-                     'confirmed' => 0,
+                     'email_verified' => 0,
                  ])
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 2])
              ->notSeeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 3]);

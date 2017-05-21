@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Backend\Access\User;
 
 use App\Models\Access\User\User;
 use App\Http\Controllers\Controller;
-use App\Notifications\Frontend\Auth\ConfirmEmailNotification;
+use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 use App\Http\Requests\Backend\Access\User\ManageUserRequest;
 
 /**
- * Class UserConfirmationController.
+ * Class UserEmailVerificationController.
  */
-class UserConfirmationController extends Controller
+class UserEmailVerificationController extends Controller
 {
     /**
      * @param User              $user
@@ -18,9 +18,9 @@ class UserConfirmationController extends Controller
      *
      * @return mixed
      */
-    public function sendConfirmationEmail(User $user, ManageUserRequest $request)
+    public function sendVerificationEmail(User $user, ManageUserRequest $request)
     {
-        $user->notify(new ConfirmEmailNotification($user->confirmation_code));
+        $user->notify(new VerifyEmailNotification($user->email_verification_code));
 
         return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.confirmation_email'));
     }

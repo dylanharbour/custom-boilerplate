@@ -32,7 +32,7 @@
                             <th>{{ trans('labels.backend.access.users.table.first_name') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.last_name') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.email') }}</th>
-                            <th>{{ trans('labels.backend.access.users.table.confirmed') }}</th>
+                            <th>{{ trans('labels.backend.access.users.table.email_verified') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.roles') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.created') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.last_updated') }}</th>
@@ -63,7 +63,7 @@
                     {data: 'first_name', name: '{{config('access.users_table')}}.first_name'},
                     {data: 'last_name', name: '{{config('access.users_table')}}.last_name'},
                     {data: 'email', name: '{{config('access.users_table')}}.email'},
-                    {data: 'confirmed', name: '{{config('access.users_table')}}.confirmed'},
+                    {data: 'email_verified', name: '{{config('access.users_table')}}.email_verified'},
                     {data: 'roles', name: '{{config('access.roles_table')}}.name', sortable: false},
                     {data: 'created_at', name: '{{config('access.users_table')}}.created_at'},
                     {data: 'updated_at', name: '{{config('access.users_table')}}.updated_at'},
@@ -86,8 +86,8 @@
                     confirmButtonText: "{{ trans('strings.backend.general.continue') }}",
                     cancelButtonText: "{{ trans('buttons.general.cancel') }}",
                     closeOnConfirm: false
-                }, function(isConfirmed){
-                    if (isConfirmed){
+                }, function(isEmailVerified){
+                    if (isEmailVerified){
                         window.location.href = linkURL;
                     }
                 });
@@ -106,8 +106,8 @@
                     confirmButtonText: "{{ trans('strings.backend.general.continue') }}",
                     cancelButtonText: "{{ trans('buttons.general.cancel') }}",
                     closeOnConfirm: false
-                }, function(isConfirmed){
-                    if (isConfirmed){
+                }, function(isEmailVerified){
+                    if (isEmailVerified){
                         window.location.href = linkURL;
                     }
                 });

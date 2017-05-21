@@ -71,8 +71,7 @@ class UserController extends Controller
                     'email',
                     'password',
                     'status',
-                    'confirmed',
-                    'confirmation_email'
+                    'email_verified'
                 ),
                 'roles' => $request->only('assignees_roles'),
             ]);
@@ -121,7 +120,7 @@ class UserController extends Controller
                     'last_name',
                     'email',
                     'status',
-                    'confirmed'
+                    'email_verified'
                 ),
                 'roles' => $request->only('assignees_roles'),
             ]);

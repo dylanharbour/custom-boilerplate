@@ -7,7 +7,7 @@ use App\Events\Backend\Access\User\UserRestored;
 use App\Events\Backend\Access\User\UserDeactivated;
 use App\Events\Backend\Access\User\UserReactivated;
 use App\Events\Backend\Access\User\UserPermanentlyDeleted;
-use App\Notifications\Frontend\Auth\ConfirmEmailNotification;
+use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 
 /**
  * Class UserRouteTest.
@@ -68,10 +68,10 @@ class UserRouteTest extends BrowserKitTestCase
         Notification::fake();
         $this->actingAs($this->admin)
              ->visit('/admin/access/user')
-             ->visit('/admin/access/user/'.$this->user->id.'/account/confirm/resend')
+             ->visit('/admin/access/user/'.$this->user->id.'/account/verify/email/resend')
              ->seePageIs('/admin/access/user')
              ->see('A new confirmation e-mail has been sent to the address on file.');
-        Notification::assertSentTo($this->user, ConfirmEmailNotification::class);
+        Notification::assertSentTo($this->user, VerifyEmailNotification::class);
     }
 
     public function testLoginAsUser()

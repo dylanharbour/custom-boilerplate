@@ -7,25 +7,25 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
 /**
- * Class ConfirmEmailNotification.
+ * Class VerifyEmailNotification.
  */
-class ConfirmEmailNotification extends Notification
+class VerifyEmailNotification extends Notification
 {
     use Queueable;
 
     /**
      * @var
      */
-    protected $confirmation_code;
+    protected $email_verification_code;
 
     /**
-     * ConfirmEmailNotification constructor.
+     * VerifyEmailNotification constructor.
      *
-     * @param $confirmation_code
+     * @param $email_verification_code
      */
-    public function __construct($confirmation_code)
+    public function __construct($email_verification_code)
     {
-        $this->confirmation_code = $confirmation_code;
+        $this->email_verification_code = $email_verification_code;
     }
 
     /**
@@ -52,7 +52,7 @@ class ConfirmEmailNotification extends Notification
         return (new MailMessage())
             ->subject(app_name().': '.trans('exceptions.frontend.auth.confirmation.confirm'))
             ->line(trans('strings.emails.auth.click_to_confirm'))
-            ->action(trans('buttons.emails.auth.confirm_account'), route('frontend.auth.account.confirm', $this->confirmation_code))
+            ->action(trans('buttons.emails.auth.confirm_account'), route('frontend.auth.account.confirm', $this->email_verification_code))
             ->line(trans('strings.emails.auth.thank_you_for_using_app'));
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\Frontend\Auth\ConfirmEmailNotification;
+use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 use App\Notifications\Frontend\Auth\PasswordResetNotification;
 
 /**
@@ -227,7 +227,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testInactiveUserCanNotLogIn()
     {
         // Create default user to test with
-        $inactive = factory(User::class)->states('confirmed', 'inactive')->create();
+        $inactive = factory(User::class)->states('email_verified', 'inactive')->create();
         $inactive->attachRole(3); //User
 
         $this->visit('/login')

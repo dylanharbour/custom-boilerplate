@@ -62,7 +62,7 @@ return [
                 'permissions'         => 'Permissions',
 
                 'table' => [
-                    'confirmed'      => 'Confirmed',
+                    'email_verified'      => 'Email Verified',
                     'created'        => 'Created',
                     'email'          => 'E-mail',
                     'id'             => 'ID',
@@ -85,7 +85,7 @@ return [
                     'content' => [
                         'overview' => [
                             'avatar'       => 'Avatar',
-                            'confirmed'    => 'Confirmed',
+                            'email_verified'    => 'Confirmed',
                             'created_at'   => 'Created At',
                             'deleted_at'   => 'Deleted At',
                             'email'        => 'E-mail',

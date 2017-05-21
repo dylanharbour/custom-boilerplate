@@ -37,7 +37,7 @@ Route::group([
              */
             Route::group(['prefix' => 'user/{user}'], function () {
                 // Account
-                Route::get('account/confirm/resend', 'UserConfirmationController@sendConfirmationEmail')->name('user.account.confirm.resend');
+                Route::get('account/verify/email/resend', 'UserEmailVerificationController@sendVerificationEmail')->name('user.account.confirm.resend');
 
                 // Status
                 Route::get('mark/{status}', 'UserStatusController@mark')->name('user.mark')->where(['status' => '[0,1]']);

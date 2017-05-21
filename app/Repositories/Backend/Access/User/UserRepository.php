@@ -94,7 +94,7 @@ class UserRepository extends BaseRepository
                 config('access.users_table').'.last_name',
                 config('access.users_table').'.email',
                 config('access.users_table').'.status',
-                config('access.users_table').'.confirmed',
+                config('access.users_table').'.email_verified',
                 config('access.users_table').'.created_at',
                 config('access.users_table').'.updated_at',
                 config('access.users_table').'.deleted_at',
@@ -155,7 +155,7 @@ class UserRepository extends BaseRepository
         $user->last_name = $data['last_name'];
         $user->email = $data['email'];
         $user->status = isset($data['status']) ? 1 : 0;
-        $user->confirmed = isset($data['confirmed']) ? 1 : 0;
+        $user->email_verified = isset($data['email_verified']) ? 1 : 0;
 
         DB::transaction(function () use ($user, $data, $roles) {
             if ($user->save()) {
@@ -351,8 +351,8 @@ class UserRepository extends BaseRepository
         $user->email = $input['email'];
         $user->password = bcrypt($input['password']);
         $user->status = isset($input['status']) ? 1 : 0;
-        $user->confirmation_code = md5(uniqid(mt_rand(), true));
-        $user->confirmed = isset($input['confirmed']) ? 1 : 0;
+        $user->email_verification_code = md5(uniqid(mt_rand(), true));
+        $user->email_verified = isset($input['email_verified']) ? 1 : 0;
 
         return $user;
     }

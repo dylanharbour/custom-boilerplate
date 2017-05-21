@@ -38,9 +38,9 @@ trait UserAttribute
     /**
      * @return string
      */
-    public function getConfirmedLabelAttribute()
+    public function getEmailVerifiedLabelAttribute()
     {
-        if ($this->isConfirmed()) {
+        if ($this->isEmailVerified()) {
             return "<label class='label label-success'>".trans('labels.general.yes').'</label>';
         }
 
@@ -96,9 +96,9 @@ trait UserAttribute
     /**
      * @return bool
      */
-    public function isConfirmed()
+    public function isEmailVerified()
     {
-        return $this->confirmed == 1;
+        return $this->email_verified == 1;
     }
 
     /**
@@ -158,9 +158,9 @@ trait UserAttribute
     /**
      * @return string
      */
-    public function getConfirmedButtonAttribute()
+    public function getEmailVerifiedButtonAttribute()
     {
-        if (! $this->isConfirmed()) {
+        if (! $this->isEmailVerified()) {
             return '<a href="'.route('admin.access.user.account.confirm.resend', $this).'" class="btn btn-xs btn-success"><i class="fa fa-refresh" data-toggle="tooltip" data-placement="top" title='.trans('buttons.backend.access.users.resend_email').'"></i></a> ';
         }
 
@@ -253,7 +253,7 @@ trait UserAttribute
             $this->getEditButtonAttribute().
             $this->getChangePasswordButtonAttribute().
             $this->getStatusButtonAttribute().
-            $this->getConfirmedButtonAttribute().
+            $this->getEmailVerifiedButtonAttribute().
             $this->getDeleteButtonAttribute();
     }
 
