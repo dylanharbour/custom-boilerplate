@@ -37,8 +37,8 @@ Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
         }
 
         // Confirm Account Routes
-        Route::get('account/confirm/{token}', 'ConfirmAccountController@confirm')->name('account.confirm');
-        Route::get('account/confirm/resend/{user}', 'ConfirmAccountController@sendConfirmationEmail')->name('account.confirm.resend');
+        Route::get('account/verify/email/{token}', 'EmailVerificationController@confirm')->name('account.confirm');
+        Route::get('account/verify/email/resend/{user}', 'EmailVerificationController@sendVerificationEmail')->name('account.confirm.resend');
 
         // Password Reset Routes
         Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.email');

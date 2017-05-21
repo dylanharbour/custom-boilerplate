@@ -18,8 +18,8 @@ class SetupAccessTables extends Migration
     {
         Schema::table(config('access.users_table'), function ($table) {
             $table->tinyInteger('status')->after('password')->default(1)->unsigned();
-            $table->string('confirmation_code')->after('status')->nullable();
-            $table->boolean('confirmed')->after('confirmation_code')->default(config('access.users.confirm_email') ? false : true);
+            $table->string('email_verification_code')->after('status')->nullable();
+            $table->boolean('email_verified')->after('email_verification_code')->default(config('access.users.confirm_email') ? false : true);
             $table->softDeletes();
         });
 
@@ -96,7 +96,7 @@ class SetupAccessTables extends Migration
     public function down()
     {
         Schema::table(config('access.users_table'), function (Blueprint $table) {
-            $table->dropColumn(['status', 'confirmed', 'confirmation_code', 'deleted_at']);
+            $table->dropColumn(['status', 'email_verified', 'email_verification_code', 'deleted_at']);
         });
 
         /*

@@ -51,7 +51,7 @@ return [
     'frontend' => [
         'auth' => [
             'confirmation' => [
-                'already_confirmed' => 'Your account is already confirmed.',
+                'already_email_verified' => 'Your account is already confirmed.',
                 'confirm'           => 'Confirm your account!',
                 'created_confirm'   => 'Your account was successfully created. We have sent you an e-mail to confirm your account.',
                 'mismatch'          => 'Your confirmation code does not match.',

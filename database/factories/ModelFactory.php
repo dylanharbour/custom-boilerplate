@@ -24,7 +24,7 @@ $factory->define(User::class, function (Generator $faker) {
         'email'             => $faker->safeEmail,
         'password'          => $password ?: $password = bcrypt('secret'),
         'remember_token'    => str_random(10),
-        'confirmation_code' => md5(uniqid(mt_rand(), true)),
+        'email_verification_code' => md5(uniqid(mt_rand(), true)),
     ];
 });
 
@@ -40,15 +40,15 @@ $factory->state(User::class, 'inactive', function () {
     ];
 });
 
-$factory->state(User::class, 'confirmed', function () {
+$factory->state(User::class, 'email_verified', function () {
     return [
-        'confirmed' => 1,
+        'email_verified' => 1,
     ];
 });
 
 $factory->state(User::class, 'unconfirmed', function () {
     return [
-        'confirmed' => 0,
+        'email_verified' => 0,
     ];
 });
 

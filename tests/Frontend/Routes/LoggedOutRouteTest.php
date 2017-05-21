@@ -4,9 +4,9 @@ use Tests\BrowserKitTestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
-use App\Events\Frontend\Auth\UserConfirmed;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use App\Events\Frontend\Auth\UserEmailConfirmed;
+use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 
 /**
  * Class LoggedOutRouteTest.
@@ -85,12 +85,12 @@ class LoggedOutRouteTest extends BrowserKitTestCase
         $unconfirmed = factory(User::class)->states('unconfirmed')->create();
         $unconfirmed->attachRole(3); //User
 
-        $this->visit('/account/confirm/'.$unconfirmed->confirmation_code)
+        $this->visit('/account/verify/email/'.$unconfirmed->email_verification_code)
              ->seePageIs('/login')
              ->see('Your account has been successfully confirmed!')
-             ->seeInDatabase(config('access.users_table'), ['email' => $unconfirmed->email, 'confirmed' => 1]);
+             ->seeInDatabase(config('access.users_table'), ['email' => $unconfirmed->email, 'email_verified' => 1]);
 
-        Event::assertDispatched(UserConfirmed::class);
+        Event::assertDispatched(UserEmailConfirmed::class);
     }
 
     /**
@@ -101,12 +101,12 @@ class LoggedOutRouteTest extends BrowserKitTestCase
     {
         Notification::fake();
 
-        $this->visit('/account/confirm/resend/'.$this->user->id)
+        $this->visit('/account/verify/email/resend/'.$this->user->id)
              ->seePageIs('/login')
              ->see('A new confirmation e-mail has been sent to the address on file.');
 
         Notification::assertSentTo([$this->user],
-            UserNeedsConfirmation::class);
+            VerifyEmailNotification::class);
     }
 
     /**

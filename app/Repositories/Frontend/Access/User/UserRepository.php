@@ -8,9 +8,10 @@ use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Access\User\SocialLogin;
-use App\Events\Frontend\Auth\UserConfirmed;
+use App\Events\Backend\Access\User\UserCreated;
+use App\Events\Frontend\Auth\UserEmailConfirmed;
 use App\Repositories\Backend\Access\Role\RoleRepository;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 
 /**
  * Class UserRepository.
@@ -54,7 +55,7 @@ class UserRepository extends BaseRepository
      */
     public function findByConfirmationToken($token)
     {
-        return $this->query()->where('confirmation_code', $token)->first();
+        return $this->query()->where('email_verification_code', $token)->first();
     }
 
     /**
@@ -106,10 +107,10 @@ class UserRepository extends BaseRepository
         $user->first_name = $data['first_name'];
         $user->last_name = $data['last_name'];
         $user->email = $data['email'];
-        $user->confirmation_code = md5(uniqid(mt_rand(), true));
+        $user->email_verification_code = md5(uniqid(mt_rand(), true));
         $user->status = 1;
         $user->password = $provider ? null : bcrypt($data['password']);
-        $user->confirmed = $provider ? 1 : (config('access.users.confirm_email') ? 0 : 1);
+        $user->email_verified = $provider ? 1 : (config('access.users.confirm_email') ? 0 : 1);
 
         DB::transaction(function () use ($user) {
             if ($user->save()) {
@@ -120,15 +121,7 @@ class UserRepository extends BaseRepository
             }
         });
 
-        /*
-         * If users have to confirm their email and this is not a social account,
-         * send the confirmation email
-         *
-         * If this is a social account they are confirmed through the social provider by default
-         */
-        if (config('access.users.confirm_email') && $provider === false) {
-            $user->notify(new UserNeedsConfirmation($user->confirmation_code));
-        }
+        event(new UserCreated($user));
 
         /*
          * Return the user object
@@ -199,19 +192,20 @@ class UserRepository extends BaseRepository
      * @throws GeneralException
      *
      * @return bool
+     * @TODO: Refactor method name to be email specific
      */
     public function confirmAccount($token)
     {
         $user = $this->findByConfirmationToken($token);
 
-        if ($user->confirmed == 1) {
-            throw new GeneralException(trans('exceptions.frontend.auth.confirmation.already_confirmed'));
+        if ($user->email_verified == 1) {
+            throw new GeneralException(trans('exceptions.frontend.auth.confirmation.already_email_verified'));
         }
 
-        if ($user->confirmation_code == $token) {
-            $user->confirmed = 1;
+        if ($user->email_verification_code == $token) {
+            $user->email_verified = 1;
 
-            event(new UserConfirmed($user));
+            event(new UserEmailConfirmed($user));
 
             return $user->save();
         }
@@ -242,13 +236,13 @@ class UserRepository extends BaseRepository
                 }
 
                 // Force the user to re-verify his email address
-                $user->confirmation_code = md5(uniqid(mt_rand(), true));
-                $user->confirmed = 0;
+                $user->email_verification_code = md5(uniqid(mt_rand(), true));
+                $user->email_verified = 0;
                 $user->email = $input['email'];
                 $updated = $user->save();
 
                 // Send the new confirmation e-mail
-                $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+                $user->notify(new VerifyEmailNotification($user->email_verification_code));
 
                 return [
                     'success' => $updated,

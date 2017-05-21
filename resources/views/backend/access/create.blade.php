@@ -72,20 +72,10 @@
                 </div><!--form control-->
 
                 <div class="form-group">
-                    {{ Form::label('confirmed', trans('validation.attributes.backend.access.users.confirmed'), ['class' => 'col-lg-2 control-label']) }}
+                    {{ Form::label('email_verified', trans('validation.attributes.backend.access.users.email_verified'), ['class' => 'col-lg-2 control-label']) }}
 
                     <div class="col-lg-1">
-                        {{ Form::checkbox('confirmed', '1', true) }}
-                    </div><!--col-lg-1-->
-                </div><!--form control-->
-
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{ trans('validation.attributes.backend.access.users.send_confirmation_email') }}<br/>
-                        <small>{{ trans('strings.backend.access.users.if_confirmed_off') }}</small>
-                    </label>
-
-                    <div class="col-lg-1">
-                        {{ Form::checkbox('confirmation_email', '1') }}
+                        {{ Form::checkbox('email_verified', '1', true) }}
                     </div><!--col-lg-1-->
                 </div><!--form control-->
 

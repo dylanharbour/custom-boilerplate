@@ -20,8 +20,8 @@
     </tr>
 
     <tr>
-        <th>{{ trans('labels.backend.access.users.tabs.content.overview.confirmed') }}</th>
-        <td>{!! $user->confirmed_label !!}</td>
+        <th>{{ trans('labels.backend.access.users.tabs.content.overview.email_verified') }}</th>
+        <td>{!! $user->email_verified_label !!}</td>
     </tr>
 
     <tr>

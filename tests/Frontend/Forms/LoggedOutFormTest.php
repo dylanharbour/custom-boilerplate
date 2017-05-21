@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
-use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
+use App\Notifications\Frontend\Auth\PasswordResetNotification;
 
 /**
  * Class LoggedOutFormTest.
@@ -53,8 +52,6 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         // Check if confirmation required is on or off
         if (config('access.users.confirm_email')) {
-            Notification::fake();
-
             $this->visit('/register')
                  ->type($firstName, 'first_name')
                  ->type($lastName, 'last_name')
@@ -74,10 +71,6 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
             // Get the user that was inserted into the database
             $user = User::where('email', $email)->first();
-
-            // Check that the user was sent the confirmation email
-            Notification::assertSentTo([$user],
-                UserNeedsConfirmation::class);
         } else {
             $this->visit('/register')
                  ->type($firstName, 'first_name')
@@ -174,7 +167,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
              ->seeInDatabase('password_resets', ['email' => $this->user->email]);
 
         Notification::assertSentTo([$this->user],
-            UserNeedsPasswordReset::class);
+            PasswordResetNotification::class);
     }
 
     /**
@@ -231,7 +224,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testInactiveUserCanNotLogIn()
     {
         // Create default user to test with
-        $inactive = factory(User::class)->states('confirmed', 'inactive')->create();
+        $inactive = factory(User::class)->states('email_verified', 'inactive')->create();
         $inactive->attachRole(3); //User
 
         $this->visit('/login')

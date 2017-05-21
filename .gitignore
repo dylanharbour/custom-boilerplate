@@ -20,3 +20,5 @@ Todo.rtf
 .vagrant
 /.vagrant
 npm-debug.log
+.phpstorm.meta.php
+scratch

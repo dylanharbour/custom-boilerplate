@@ -50,9 +50,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         /*
-         * Check to see if the users account is confirmed and active
+         * Check to see if the users account is Verified and Active
          */
-        if (! $user->isConfirmed()) {
+        if (! $user->isEmailVerified()) {
             access()->logout();
             throw new GeneralException(trans('exceptions.frontend.auth.confirmation.resend', ['user_id' => $user->id]));
         } elseif (! $user->isActive()) {
