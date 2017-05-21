@@ -16,7 +16,6 @@ use App\Events\Backend\Access\User\UserReactivated;
 use App\Events\Backend\Access\User\UserPasswordChanged;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Events\Backend\Access\User\UserPermanentlyDeleted;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 
 /**
  * Class UserRepository.
@@ -128,11 +127,6 @@ class UserRepository extends BaseRepository
 
                 //Attach new roles
                 $user->attachRoles($roles['assignees_roles']);
-
-                //Send confirmation email if requested
-                if (isset($data['confirmation_email']) && $user->confirmed == 0) {
-                    $user->notify(new UserNeedsConfirmation($user->confirmation_code));
-                }
 
                 event(new UserCreated($user));
 

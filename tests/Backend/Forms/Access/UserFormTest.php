@@ -8,7 +8,6 @@ use App\Events\Backend\Access\User\UserCreated;
 use App\Events\Backend\Access\User\UserDeleted;
 use App\Events\Backend\Access\User\UserUpdated;
 use App\Events\Backend\Access\User\UserPasswordChanged;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 
 /**
  * Class UserFormTest.
@@ -90,9 +89,6 @@ class UserFormTest extends BrowserKitTestCase
         // Make sure our events are fired
         Event::fake();
 
-        // Make sure our notifications are sent
-        Notification::fake();
-
         // Create any needed resources
         $faker = Faker\Factory::create();
         $firstName = $faker->firstName;
@@ -128,10 +124,6 @@ class UserFormTest extends BrowserKitTestCase
 
         // Get the user that was inserted into the database
         $user = User::where('email', $email)->first();
-
-        // Check that the user was sent the confirmation email
-        Notification::assertSentTo([$user],
-            UserNeedsConfirmation::class);
 
         Event::assertDispatched(UserCreated::class);
     }

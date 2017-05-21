@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Frontend\Access\User;
 
+use App\Events\Backend\Access\User\UserCreated;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
@@ -120,15 +121,7 @@ class UserRepository extends BaseRepository
             }
         });
 
-        /*
-         * If users have to confirm their email and this is not a social account,
-         * send the confirmation email
-         *
-         * If this is a social account they are confirmed through the social provider by default
-         */
-        if (config('access.users.confirm_email') && $provider === false) {
-            $user->notify(new UserNeedsConfirmation($user->confirmation_code));
-        }
+        event(new UserCreated($user));
 
         /*
          * Return the user object

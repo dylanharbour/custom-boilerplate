@@ -53,7 +53,6 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         // Check if confirmation required is on or off
         if (config('access.users.confirm_email')) {
-            Notification::fake();
 
             $this->visit('/register')
                  ->type($firstName, 'first_name')
@@ -75,9 +74,6 @@ class LoggedOutFormTest extends BrowserKitTestCase
             // Get the user that was inserted into the database
             $user = User::where('email', $email)->first();
 
-            // Check that the user was sent the confirmation email
-            Notification::assertSentTo([$user],
-                UserNeedsConfirmation::class);
         } else {
             $this->visit('/register')
                  ->type($firstName, 'first_name')
