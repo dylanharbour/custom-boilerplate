@@ -202,6 +202,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Nexmo\Laravel\NexmoServiceProvider::class,
 
     ],
 

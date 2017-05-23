@@ -38,6 +38,16 @@
                     </div><!--form-group-->
 
                     <div class="form-group">
+                        {{ Form::label('mobile_number', trans('validation.attributes.frontend.mobile_number'),
+                        ['class' => 'col-md-4 control-label']) }}
+                        <div class="col-md-6">
+                            {{ Form::text('mobile_number', null,
+                            ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'placeholder' => trans('validation.attributes.frontend.mobile_number')]) }}
+                        </div><!--col-md-6-->
+                    </div><!--form-group-->
+
+
+                    <div class="form-group">
                         {{ Form::label('password', trans('validation.attributes.frontend.password'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
                             {{ Form::password('password', ['class' => 'form-control', 'required' => 'required', 'placeholder' => trans('validation.attributes.frontend.password')]) }}

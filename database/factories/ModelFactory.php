@@ -22,9 +22,12 @@ $factory->define(User::class, function (Generator $faker) {
         'first_name'        => $faker->firstName,
         'last_name'         => $faker->lastName,
         'email'             => $faker->safeEmail,
+        'mobile_verified' =>  true,
+        'mobile_verification_code' => '1234',
         'password'          => $password ?: $password = bcrypt('secret'),
         'remember_token'    => str_random(10),
         'email_verification_code' => md5(uniqid(mt_rand(), true)),
+        'email_verified' => true,
     ];
 });
 

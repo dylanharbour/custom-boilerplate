@@ -105,4 +105,12 @@ return [
         'scopes'        => [],
         'with'          => [],
     ],
+
+    'nexmo' => [
+        'enabled' => env('NEXMO_ENABLED', false), //if set to false, notifications are logged rather than sent.
+        'key' => env('NEXMO_KEY'),
+        'secret' => env('NEXMO_SECRET'),
+        'sms_from' => 'NEXMO',
+    ],
+
 ];

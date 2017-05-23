@@ -107,6 +107,9 @@ return [
 
         'auth' => [
             'login_box_title'    => 'Login',
+            'verify_mobile_title'    => 'Verify Mobile Number',
+            'resend'    => 'Resend',
+            'verify_button'       => 'Verify',
             'login_button'       => 'Login',
             'login_with'         => 'Login with :social_media',
             'register_box_title' => 'Register',

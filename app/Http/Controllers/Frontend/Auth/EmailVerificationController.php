@@ -32,10 +32,9 @@ class EmailVerificationController extends Controller
      *
      * @return mixed
      */
-    //@TODO: Come back and refacto this method to be email explicit (Prob the entire class is best!)
     public function confirm($token)
     {
-        $this->user->confirmAccount($token);
+        $this->user->verifyAccountEmail($token);
 
         return redirect()->route('frontend.auth.login')->withFlashSuccess(trans('exceptions.frontend.auth.confirmation.success'));
     }
