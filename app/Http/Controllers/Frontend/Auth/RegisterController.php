@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Events\Frontend\Auth\UserRegisteredEvent;
 use App\Http\Requests\Frontend\Auth\RegisterRequest;
 use App\Repositories\Frontend\Access\User\UserRepository;
 
@@ -52,12 +52,12 @@ class RegisterController extends Controller
     {
         if (config('access.users.confirm_email')) {
             $user = $this->user->create($request->only('first_name', 'last_name', 'email', 'password'));
-            event(new UserRegistered($user));
+            event(new UserRegisteredEvent($user));
 
             return redirect($this->redirectPath())->withFlashSuccess(trans('exceptions.frontend.auth.confirmation.created_confirm'));
         } else {
             access()->login($this->user->create($request->only('first_name', 'last_name', 'email', 'password')));
-            event(new UserRegistered(access()->user()));
+            event(new UserRegisteredEvent(access()->user()));
 
             return redirect($this->redirectPath());
         }

@@ -4,9 +4,9 @@ use Tests\BrowserKitTestCase;
 use App\Models\Access\Role\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use App\Events\Backend\Access\Role\RoleCreated;
-use App\Events\Backend\Access\Role\RoleDeleted;
-use App\Events\Backend\Access\Role\RoleUpdated;
+use App\Events\Backend\Access\Role\RoleCreatedEvent;
+use App\Events\Backend\Access\Role\RoleDeletedEvent;
+use App\Events\Backend\Access\Role\RoleUpdatedEvent;
 
 /**
  * Class RoleFormTest.
@@ -53,7 +53,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->see('The role was successfully created.')
              ->seeInDatabase(config('access.roles_table'), ['name' => 'Test Role', 'all' => 1, 'sort' => 999]);
 
-        Event::assertDispatched(RoleCreated::class);
+        Event::assertDispatched(RoleCreatedEvent::class);
     }
 
     public function testCreateRoleFormSpecificPermissions()
@@ -73,7 +73,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->seeInDatabase(config('access.roles_table'), ['name' => 'Test Role', 'all' => 0])
              ->seeInDatabase(config('access.permission_role_table'), ['permission_id' => 1, 'role_id' => 4]);
 
-        Event::assertDispatched(RoleCreated::class);
+        Event::assertDispatched(RoleCreatedEvent::class);
     }
 
     public function testRoleAlreadyExists()
@@ -123,7 +123,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->see('The role was successfully updated.')
              ->seeInDatabase(config('access.roles_table'), ['id' => 1, 'name' => 'Administrator Edited', 'sort' => 123]);
 
-        Event::assertDispatched(RoleUpdated::class);
+        Event::assertDispatched(RoleUpdatedEvent::class);
     }
 
     public function testUpdateRoleFormSpecificPermissions()
@@ -140,7 +140,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->see('The role was successfully updated.')
              ->seeInDatabase(config('access.permission_role_table'), ['permission_id' => 1, 'role_id' => 3]);
 
-        Event::assertDispatched(RoleUpdated::class);
+        Event::assertDispatched(RoleUpdatedEvent::class);
     }
 
     public function testUpdateRoleRequiresPermission()
@@ -168,7 +168,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->notSeeInDatabase(config('access.roles_table'), ['id' => $role->id])
              ->seeInSession(['flash_success' => 'The role was successfully deleted.']);
 
-        Event::assertDispatched(RoleDeleted::class);
+        Event::assertDispatched(RoleDeletedEvent::class);
     }
 
     public function testDeleteRoleWithPermissions()
@@ -187,7 +187,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->notSeeInDatabase(config('access.permission_role_table'), ['permission_id' => 1, 'role_id' => 2])
              ->seeInSession(['flash_success' => 'The role was successfully deleted.']);
 
-        Event::assertDispatched(RoleDeleted::class);
+        Event::assertDispatched(RoleDeletedEvent::class);
     }
 
     public function testCanNotDeleteAdministratorRole()

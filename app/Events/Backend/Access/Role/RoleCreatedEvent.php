@@ -5,9 +5,9 @@ namespace App\Events\Backend\Access\Role;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class RoleUpdated.
+ * Class RoleCreatedEvent.
  */
-class RoleUpdated
+class RoleCreatedEvent
 {
     use SerializesModels;
 

@@ -8,8 +8,8 @@ use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Access\User\SocialLogin;
-use App\Events\Backend\Access\User\UserCreated;
-use App\Events\Frontend\Auth\UserEmailConfirmed;
+use App\Events\Backend\Access\User\UserCreatedEvent;
+use App\Events\Frontend\Auth\UserEmailConfirmedEvent;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 
@@ -121,7 +121,7 @@ class UserRepository extends BaseRepository
             }
         });
 
-        event(new UserCreated($user));
+        event(new UserCreatedEvent($user));
 
         /*
          * Return the user object
@@ -205,7 +205,7 @@ class UserRepository extends BaseRepository
         if ($user->email_verification_code == $token) {
             $user->email_verified = 1;
 
-            event(new UserEmailConfirmed($user));
+            event(new UserEmailConfirmedEvent($user));
 
             return $user->save();
         }

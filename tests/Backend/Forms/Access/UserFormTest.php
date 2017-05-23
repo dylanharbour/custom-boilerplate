@@ -3,10 +3,10 @@
 use Tests\BrowserKitTestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\Event;
-use App\Events\Backend\Access\User\UserCreated;
-use App\Events\Backend\Access\User\UserDeleted;
-use App\Events\Backend\Access\User\UserUpdated;
-use App\Events\Backend\Access\User\UserPasswordChanged;
+use App\Events\Backend\Access\User\UserCreatedEvent;
+use App\Events\Backend\Access\User\UserDeletedEvent;
+use App\Events\Backend\Access\User\UserUpdatedEvent;
+use App\Events\Backend\Access\User\UserPasswordChangedEvent;
 
 /**
  * Class UserFormTest.
@@ -42,7 +42,7 @@ class UserFormTest extends BrowserKitTestCase
              ->see('The password confirmation does not match.');
     }
 
-    public function testCreateUserEmailConfirmedForm()
+    public function testCreateUserEmailConfirmedEventForm()
     {
         // Make sure our events are fired
         Event::fake();
@@ -79,7 +79,7 @@ class UserFormTest extends BrowserKitTestCase
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => 4, 'role_id' => 2])
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => 4, 'role_id' => 3]);
 
-        Event::assertDispatched(UserCreated::class);
+        Event::assertDispatched(UserCreatedEvent::class);
     }
 
     public function testCreateUserUnVerifiedForm()
@@ -122,7 +122,7 @@ class UserFormTest extends BrowserKitTestCase
         // Get the user that was inserted into the database
         $user = User::where('email', $email)->first();
 
-        Event::assertDispatched(UserCreated::class);
+        Event::assertDispatched(UserCreatedEvent::class);
     }
 
     public function testCreateUserFailsIfEmailExists()
@@ -184,7 +184,7 @@ class UserFormTest extends BrowserKitTestCase
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 2])
              ->notSeeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 3]);
 
-        Event::assertDispatched(UserUpdated::class);
+        Event::assertDispatched(UserUpdatedEvent::class);
     }
 
     public function testDeleteUserForm()
@@ -197,7 +197,7 @@ class UserFormTest extends BrowserKitTestCase
              ->assertRedirectedTo('/admin/access/user/deleted')
              ->notSeeInDatabase(config('access.users_table'), ['id' => $this->user->id, 'deleted_at' => null]);
 
-        Event::assertDispatched(UserDeleted::class);
+        Event::assertDispatched(UserDeletedEvent::class);
     }
 
     public function testUserCanNotDeleteSelf()
@@ -238,7 +238,7 @@ class UserFormTest extends BrowserKitTestCase
              ->seePageIs('/admin/access/user')
              ->see('The user\'s password was successfully updated.');
 
-        Event::assertDispatched(UserPasswordChanged::class);
+        Event::assertDispatched(UserPasswordChangedEvent::class);
     }
 
     public function testChangeUserPasswordDoNotMatch()

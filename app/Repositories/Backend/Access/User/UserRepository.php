@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\Backend\Access\User\UserCreated;
-use App\Events\Backend\Access\User\UserDeleted;
-use App\Events\Backend\Access\User\UserUpdated;
-use App\Events\Backend\Access\User\UserRestored;
-use App\Events\Backend\Access\User\UserDeactivated;
-use App\Events\Backend\Access\User\UserReactivated;
-use App\Events\Backend\Access\User\UserPasswordChanged;
+use App\Events\Backend\Access\User\UserCreatedEvent;
+use App\Events\Backend\Access\User\UserDeletedEvent;
+use App\Events\Backend\Access\User\UserUpdatedEvent;
+use App\Events\Backend\Access\User\UserRestoredEvent;
+use App\Events\Backend\Access\User\UserDeactivatedEvent;
+use App\Events\Backend\Access\User\UserReactivatedEvent;
 use App\Repositories\Backend\Access\Role\RoleRepository;
-use App\Events\Backend\Access\User\UserPermanentlyDeleted;
+use App\Events\Backend\Access\User\UserPasswordChangedEvent;
+use App\Events\Backend\Access\User\UserPermanentlyDeletedEvent;
 
 /**
  * Class UserRepository.
@@ -128,7 +128,7 @@ class UserRepository extends BaseRepository
                 //Attach new roles
                 $user->attachRoles($roles['assignees_roles']);
 
-                event(new UserCreated($user));
+                event(new UserCreatedEvent($user));
 
                 return true;
             }
@@ -162,7 +162,7 @@ class UserRepository extends BaseRepository
                 $this->checkUserRolesCount($roles);
                 $this->flushRoles($roles, $user);
 
-                event(new UserUpdated($user));
+                event(new UserUpdatedEvent($user));
 
                 return true;
             }
@@ -184,7 +184,7 @@ class UserRepository extends BaseRepository
         $user->password = bcrypt($input['password']);
 
         if ($user->save()) {
-            event(new UserPasswordChanged($user));
+            event(new UserPasswordChangedEvent($user));
 
             return true;
         }
@@ -210,7 +210,7 @@ class UserRepository extends BaseRepository
         }
 
         if ($user->delete()) {
-            event(new UserDeleted($user));
+            event(new UserDeletedEvent($user));
 
             return true;
         }
@@ -231,7 +231,7 @@ class UserRepository extends BaseRepository
 
         DB::transaction(function () use ($user) {
             if ($user->forceDelete()) {
-                event(new UserPermanentlyDeleted($user));
+                event(new UserPermanentlyDeletedEvent($user));
 
                 return true;
             }
@@ -254,7 +254,7 @@ class UserRepository extends BaseRepository
         }
 
         if ($user->restore()) {
-            event(new UserRestored($user));
+            event(new UserRestoredEvent($user));
 
             return true;
         }
@@ -280,11 +280,11 @@ class UserRepository extends BaseRepository
 
         switch ($status) {
             case 0:
-                event(new UserDeactivated($user));
+                event(new UserDeactivatedEvent($user));
             break;
 
             case 1:
-                event(new UserReactivated($user));
+                event(new UserReactivatedEvent($user));
             break;
         }
 

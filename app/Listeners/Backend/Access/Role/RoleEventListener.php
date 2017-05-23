@@ -59,17 +59,17 @@ class RoleEventListener
     public function subscribe($events)
     {
         $events->listen(
-            \App\Events\Backend\Access\Role\RoleCreated::class,
+            \App\Events\Backend\Access\Role\RoleCreatedEvent::class,
             'App\Listeners\Backend\Access\Role\RoleEventListener@onCreated'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\Role\RoleUpdated::class,
+            \App\Events\Backend\Access\Role\RoleUpdatedEvent::class,
             'App\Listeners\Backend\Access\Role\RoleEventListener@onUpdated'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\Role\RoleDeleted::class,
+            \App\Events\Backend\Access\Role\RoleDeletedEvent::class,
             'App\Listeners\Backend\Access\Role\RoleEventListener@onDeleted'
         );
     }

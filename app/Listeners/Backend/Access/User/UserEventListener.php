@@ -162,42 +162,42 @@ class UserEventListener
     public function subscribe($events)
     {
         $events->listen(
-            \App\Events\Backend\Access\User\UserCreated::class,
+            \App\Events\Backend\Access\User\UserCreatedEvent::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onCreated'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\User\UserUpdated::class,
+            \App\Events\Backend\Access\User\UserUpdatedEvent::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onUpdated'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\User\UserDeleted::class,
+            \App\Events\Backend\Access\User\UserDeletedEvent::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onDeleted'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\User\UserRestored::class,
+            \App\Events\Backend\Access\User\UserRestoredEvent::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onRestored'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\User\UserPermanentlyDeleted::class,
+            \App\Events\Backend\Access\User\UserPermanentlyDeletedEvent::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onPermanentlyDeleted'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\User\UserPasswordChanged::class,
+            \App\Events\Backend\Access\User\UserPasswordChangedEvent::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onPasswordChanged'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\User\UserDeactivated::class,
+            \App\Events\Backend\Access\User\UserDeactivatedEvent::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onDeactivated'
         );
 
         $events->listen(
-            \App\Events\Backend\Access\User\UserReactivated::class,
+            \App\Events\Backend\Access\User\UserReactivatedEvent::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onReactivated'
         );
     }

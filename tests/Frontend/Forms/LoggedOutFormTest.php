@@ -5,9 +5,9 @@ use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use App\Events\Frontend\Auth\UserLoggedIn;
-use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
+use App\Events\Frontend\Auth\UserLoggedInEvent;
+use App\Events\Frontend\Auth\UserRegisteredEvent;
 use App\Notifications\Frontend\Auth\PasswordResetNotification;
 
 /**
@@ -89,7 +89,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
                      ]);
         }
 
-        Event::assertDispatched(UserRegistered::class);
+        Event::assertDispatched(UserRegisteredEvent::class);
     }
 
     /**
@@ -136,7 +136,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
              ->see($this->admin->name)
              ->see('Access Management');
 
-        Event::assertDispatched(UserLoggedIn::class);
+        Event::assertDispatched(UserLoggedInEvent::class);
     }
 
     /**
