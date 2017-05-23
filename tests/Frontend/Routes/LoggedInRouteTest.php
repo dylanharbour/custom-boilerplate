@@ -2,7 +2,7 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Support\Facades\Event;
-use App\Events\Frontend\Auth\UserLoggedOut;
+use App\Events\Frontend\Auth\UserLoggedOutEvent;
 
 /**
  * Class LoggedInRouteTest.
@@ -61,6 +61,6 @@ class LoggedInRouteTest extends BrowserKitTestCase
 
         $this->actingAs($this->user)->visit('/logout')->see('Login')->see('Register');
 
-        Event::assertDispatched(UserLoggedOut::class);
+        Event::assertDispatched(UserLoggedOutEvent::class);
     }
 }

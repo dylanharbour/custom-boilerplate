@@ -5,9 +5,9 @@ namespace App\Events\Frontend\Auth;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UserEmailConfirmed.
+ * Class UserLoggedInEvent.
  */
-class UserEmailConfirmed
+class UserLoggedInEvent
 {
     use SerializesModels;
 

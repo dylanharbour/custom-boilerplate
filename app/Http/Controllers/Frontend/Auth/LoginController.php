@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
 use App\Helpers\Frontend\Auth\Socialite;
-use App\Events\Frontend\Auth\UserLoggedIn;
-use App\Events\Frontend\Auth\UserLoggedOut;
+use App\Events\Frontend\Auth\UserLoggedInEvent;
+use App\Events\Frontend\Auth\UserLoggedOutEvent;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 /**
@@ -60,7 +60,7 @@ class LoginController extends Controller
             throw new GeneralException(trans('exceptions.frontend.auth.deactivated'));
         }
 
-        event(new UserLoggedIn($user));
+        event(new UserLoggedInEvent($user));
 
         return redirect()->intended($this->redirectPath());
     }
@@ -93,7 +93,7 @@ class LoginController extends Controller
         /*
          * Fire event, Log out user, Redirect
          */
-        event(new UserLoggedOut($this->guard()->user()));
+        event(new UserLoggedOutEvent($this->guard()->user()));
 
         /*
          * Laravel specific logic

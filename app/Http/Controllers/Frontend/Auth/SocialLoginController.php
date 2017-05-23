@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
-use App\Events\Frontend\Auth\UserLoggedIn;
+use App\Events\Frontend\Auth\UserLoggedInEvent;
 use App\Repositories\Frontend\Access\User\UserRepository;
 use App\Helpers\Frontend\Auth\Socialite as SocialiteHelper;
 
@@ -84,7 +84,7 @@ class SocialLoginController extends Controller
         access()->login($user, true);
 
         // Throw an event in case you want to do anything when the user logs in
-        event(new UserLoggedIn($user));
+        event(new UserLoggedInEvent($user));
 
         // Set session variable so we know which provider user is logged in as, if ever needed
         session([config('access.socialite_session_name') => $provider]);

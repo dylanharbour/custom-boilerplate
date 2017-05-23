@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\Backend\Access\Role\RoleCreated;
-use App\Events\Backend\Access\Role\RoleDeleted;
-use App\Events\Backend\Access\Role\RoleUpdated;
+use App\Events\Backend\Access\Role\RoleCreatedEvent;
+use App\Events\Backend\Access\Role\RoleDeletedEvent;
+use App\Events\Backend\Access\Role\RoleUpdatedEvent;
 
 /**
  * Class RoleRepository.
@@ -102,7 +102,7 @@ class RoleRepository extends BaseRepository
                     $role->attachPermissions($permissions);
                 }
 
-                event(new RoleCreated($role));
+                event(new RoleCreatedEvent($role));
 
                 return true;
             }
@@ -169,7 +169,7 @@ class RoleRepository extends BaseRepository
                     $role->attachPermissions($permissions);
                 }
 
-                event(new RoleUpdated($role));
+                event(new RoleUpdatedEvent($role));
 
                 return true;
             }
@@ -202,7 +202,7 @@ class RoleRepository extends BaseRepository
             $role->permissions()->sync([]);
 
             if ($role->delete()) {
-                event(new RoleDeleted($role));
+                event(new RoleDeletedEvent($role));
 
                 return true;
             }

@@ -5,9 +5,9 @@ namespace App\Events\Backend\Access\User;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UserRestored.
+ * Class UserPermanentlyDeletedEvent.
  */
-class UserRestored
+class UserPermanentlyDeletedEvent
 {
     use SerializesModels;
 

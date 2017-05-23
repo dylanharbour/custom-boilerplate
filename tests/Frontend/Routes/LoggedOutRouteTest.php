@@ -5,7 +5,7 @@ use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
-use App\Events\Frontend\Auth\UserEmailConfirmed;
+use App\Events\Frontend\Auth\UserEmailConfirmedEvent;
 use App\Notifications\Frontend\Auth\VerifyEmailNotification;
 
 /**
@@ -90,7 +90,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
              ->see('Your account has been successfully confirmed!')
              ->seeInDatabase(config('access.users_table'), ['email' => $unconfirmed->email, 'email_verified' => 1]);
 
-        Event::assertDispatched(UserEmailConfirmed::class);
+        Event::assertDispatched(UserEmailConfirmedEvent::class);
     }
 
     /**

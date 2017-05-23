@@ -47,22 +47,22 @@ class UserEventListener
     public function subscribe($events)
     {
         $events->listen(
-            \App\Events\Frontend\Auth\UserLoggedIn::class,
+            \App\Events\Frontend\Auth\UserLoggedInEvent::class,
             'App\Listeners\Frontend\Auth\UserEventListener@onLoggedIn'
         );
 
         $events->listen(
-            \App\Events\Frontend\Auth\UserLoggedOut::class,
+            \App\Events\Frontend\Auth\UserLoggedOutEvent::class,
             'App\Listeners\Frontend\Auth\UserEventListener@onLoggedOut'
         );
 
         $events->listen(
-            \App\Events\Frontend\Auth\UserRegistered::class,
+            \App\Events\Frontend\Auth\UserRegisteredEvent::class,
             'App\Listeners\Frontend\Auth\UserEventListener@onRegistered'
         );
 
         $events->listen(
-            \App\Events\Frontend\Auth\UserEmailConfirmed::class,
+            \App\Events\Frontend\Auth\UserEmailConfirmedEvent::class,
             'App\Listeners\Frontend\Auth\UserEventListener@onEmailConfirmed'
         );
     }

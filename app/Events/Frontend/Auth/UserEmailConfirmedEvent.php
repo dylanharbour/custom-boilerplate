@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Events\Backend\Access\User;
+namespace App\Events\Frontend\Auth;
 
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UserReactivated.
+ * Class UserEmailConfirmedEvent.
  */
-class UserReactivated
+class UserEmailConfirmedEvent
 {
     use SerializesModels;
 

@@ -5,9 +5,9 @@ namespace App\Events\Backend\Access\Role;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class RoleDeleted.
+ * Class RoleDeletedEvent.
  */
-class RoleDeleted
+class RoleDeletedEvent
 {
     use SerializesModels;
 

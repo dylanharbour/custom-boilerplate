@@ -5,9 +5,9 @@ namespace App\Events\Backend\Access\User;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UserPasswordChanged.
+ * Class UserUpdatedEvent.
  */
-class UserPasswordChanged
+class UserUpdatedEvent
 {
     use SerializesModels;
 

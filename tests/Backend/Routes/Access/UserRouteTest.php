@@ -3,11 +3,11 @@
 use Carbon\Carbon;
 use Tests\BrowserKitTestCase;
 use Illuminate\Support\Facades\Event;
-use App\Events\Backend\Access\User\UserRestored;
-use App\Events\Backend\Access\User\UserDeactivated;
-use App\Events\Backend\Access\User\UserReactivated;
-use App\Events\Backend\Access\User\UserPermanentlyDeleted;
+use App\Events\Backend\Access\User\UserRestoredEvent;
+use App\Events\Backend\Access\User\UserDeactivatedEvent;
+use App\Events\Backend\Access\User\UserReactivatedEvent;
 use App\Notifications\Frontend\Auth\VerifyEmailNotification;
+use App\Events\Backend\Access\User\UserPermanentlyDeletedEvent;
 
 /**
  * Class UserRouteTest.
@@ -117,8 +117,8 @@ class UserRouteTest extends BrowserKitTestCase
              ->see('The user was successfully updated.')
              ->seeInDatabase(config('access.users_table'), ['id' => $this->user->id, 'status' => 1]);
 
-        Event::assertDispatched(UserDeactivated::class);
-        Event::assertDispatched(UserReactivated::class);
+        Event::assertDispatched(UserDeactivatedEvent::class);
+        Event::assertDispatched(UserReactivatedEvent::class);
     }
 
     public function testRestoreUser()
@@ -136,7 +136,7 @@ class UserRouteTest extends BrowserKitTestCase
              ->see('The user was successfully restored.')
              ->seeInDatabase(config('access.users_table'), ['id' => $this->user->id, 'deleted_at' => null]);
 
-        Event::assertDispatched(UserRestored::class);
+        Event::assertDispatched(UserRestoredEvent::class);
     }
 
     public function testUserIsDeletedBeforeBeingRestored()
@@ -163,7 +163,7 @@ class UserRouteTest extends BrowserKitTestCase
              ->see('The user was deleted permanently.')
              ->notSeeInDatabase(config('access.users_table'), ['id' => $this->user->id]);
 
-        Event::assertDispatched(UserPermanentlyDeleted::class);
+        Event::assertDispatched(UserPermanentlyDeletedEvent::class);
     }
 
     public function testUserIsDeletedBeforeBeingPermanentlyDeleted()
