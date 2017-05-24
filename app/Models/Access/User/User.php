@@ -36,7 +36,18 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'status', 'email_verification_code', 'email_verified'];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'status',
+        'mobile_number',
+        'email_verification_code',
+        'email_verified',
+        'mobile_verification_code',
+        'mobile_verified',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -63,5 +74,27 @@ class User extends Authenticatable
     {
         parent::__construct($attributes);
         $this->table = config('access.users_table');
+    }
+
+    /**
+     * @return string
+     */
+    private function generateMobileVerifcationCode()
+    {
+        return random_int(0, 9).random_int(0, 9).random_int(0, 9).random_int(0, 9);
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (User $user) {
+            $user->mobile_verification_code = $user->generateMobileVerifcationCode();
+        });
     }
 }

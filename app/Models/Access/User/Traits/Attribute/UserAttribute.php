@@ -102,6 +102,14 @@ trait UserAttribute
     }
 
     /**
+     * @return bool
+     */
+    public function isMobileNumberVerified()
+    {
+        return $this->mobile_verified == 1;
+    }
+
+    /**
      * @return string
      */
     public function getShowButtonAttribute()
@@ -273,5 +281,31 @@ trait UserAttribute
     public function getNameAttribute()
     {
         return $this->full_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhoneNumberAttribute()
+    {
+        return $this->mobile_number;
+    }
+
+    /**
+     * If users are created outside of the scope of the model (e.g. Direct DB insert) this attribute won't be set.
+     * So lets Generate it on the fly if needed.
+     * @param $value
+     * @return mixed
+     */
+    public function getMobileVerificationCodeAttribute($value)
+    {
+        if (! $value) {
+            $value = $this->generateMobileVerifcationCode();
+            $this->update(
+                ['mobile_verification_code' => $value]
+            );
+        }
+
+        return $value;
     }
 }

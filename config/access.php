@@ -61,6 +61,11 @@ return [
         'confirm_email' => true,
 
         /*
+         * Whether or not the user has to confirm their Mobile Number by SMS when signing up
+         */
+        'confirm_mobile' => true,
+
+        /*
          * Whether or not the users email can be changed on the edit profile screen
          */
         'change_email' => false,

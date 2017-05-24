@@ -8,7 +8,7 @@ use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Access\User\SocialLogin;
-use App\Events\Backend\Access\User\UserCreatedEvent;
+use App\Events\Frontend\Auth\UserRegisteredEvent;
 use App\Events\Frontend\Auth\UserEmailConfirmedEvent;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Notifications\Frontend\Auth\VerifyEmailNotification;
@@ -53,7 +53,7 @@ class UserRepository extends BaseRepository
      *
      * @return mixed
      */
-    public function findByConfirmationToken($token)
+    public function findByEmailVerificationToken($token)
     {
         return $this->query()->where('email_verification_code', $token)->first();
     }
@@ -121,7 +121,7 @@ class UserRepository extends BaseRepository
             }
         });
 
-        event(new UserCreatedEvent($user));
+        event(new UserRegisteredEvent($user));
 
         /*
          * Return the user object
@@ -192,11 +192,10 @@ class UserRepository extends BaseRepository
      * @throws GeneralException
      *
      * @return bool
-     * @TODO: Refactor method name to be email specific
      */
-    public function confirmAccount($token)
+    public function verifyAccountEmail($token)
     {
-        $user = $this->findByConfirmationToken($token);
+        $user = $this->findByEmailVerificationToken($token);
 
         if ($user->email_verified == 1) {
             throw new GeneralException(trans('exceptions.frontend.auth.confirmation.already_email_verified'));
@@ -211,6 +210,16 @@ class UserRepository extends BaseRepository
         }
 
         throw new GeneralException(trans('exceptions.frontend.auth.confirmation.mismatch'));
+    }
+
+    /**
+     * @param User $user
+     * @param string $code
+     * @return bool
+     */
+    public function validatePhoneNumberVerificationCode(User $user, string $code)
+    {
+        return ($user->mobile_verification_code) && ($user->mobile_verification_code == $code);
     }
 
     /**

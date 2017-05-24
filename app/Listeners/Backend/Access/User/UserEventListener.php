@@ -3,6 +3,7 @@
 namespace App\Listeners\Backend\Access\User;
 
 use App\Notifications\Frontend\Auth\VerifyEmailNotification;
+use App\Notifications\Frontend\Auth\VerifyMobileNumberNotification;
 
 /**
  * Class UserEventListener.
@@ -32,6 +33,11 @@ class UserEventListener
         //Send confirmation email if requested
         if (config('access.users.confirm_email') && ! $event->user->isEmailVerified()) {
             $event->user->notify(new VerifyEmailNotification($event->user->email_verification_code));
+        }
+
+        //Send verification email if requested
+        if (config('access.users.confirm_mobile') && ! $event->user->isMobileNumberVerified()) {
+            $event->user->notify(new VerifyMobileNumberNotification($event->user));
         }
     }
 

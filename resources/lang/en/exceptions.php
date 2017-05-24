@@ -59,6 +59,7 @@ return [
                 'resend'            => 'Your account is not confirmed. Please click the confirmation link in your e-mail, or <a href="'.route('frontend.auth.account.confirm.resend', ':user_id').'">click here</a> to resend the confirmation e-mail.',
                 'success'           => 'Your account has been successfully confirmed!',
                 'resent'            => 'A new confirmation e-mail has been sent to the address on file.',
+                'mobile_resent'            => 'A confirmation code has been sent to your phone by SMS',
             ],
 
             'deactivated' => 'Your account has been deactivated.',

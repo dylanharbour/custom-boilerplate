@@ -20,4 +20,5 @@ return [
     ],
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'unknown'  => 'An unknown error occurred',
+    'mobile_number_not_verified_error' => 'Please verify your mobile number before interacting with the system.',
 ];
