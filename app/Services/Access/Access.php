@@ -2,6 +2,7 @@
 
 namespace App\Services\Access;
 
+use App\Models\Access\User\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
@@ -11,6 +12,7 @@ class Access
 {
     /**
      * Get the currently authenticated user or null.
+     * @return User|null
      */
     public function user()
     {
