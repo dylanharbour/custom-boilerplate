@@ -13,6 +13,10 @@ class MobileNumberVerifiedMiddleware
      */
     public function handle($request, Closure $next)
     {
+        if (! config('access.users.confirm_mobile')) {
+            return $next($request);
+        }
+
         if (
             ! access()->user()
             || ! access()->user()->isMobileNumberVerified()

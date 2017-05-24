@@ -106,7 +106,7 @@ trait UserAttribute
      */
     public function isMobileNumberVerified()
     {
-        return $this->mobile_verified == 1;
+        return (bool) $this->mobile_verified;
     }
 
     /**

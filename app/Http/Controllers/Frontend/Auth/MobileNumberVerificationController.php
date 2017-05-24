@@ -34,7 +34,14 @@ class MobileNumberVerificationController extends Controller
      */
     public function show()
     {
-        return view('frontend.auth.mobile_verify');
+        if (
+            config('access.users.confirm_mobile')
+            && ! access()->user()->isMobileNumberVerified()
+        ) {
+            return view('frontend.auth.mobile_verify');
+        }
+
+        return redirect()->route(homeRoute())->withFlashDanger('No Mobile Number Verification Required');
     }
 
     /**
@@ -44,6 +51,7 @@ class MobileNumberVerificationController extends Controller
      */
     public function confirm(VerifyMobileNumberRequest $request)
     {
+
         /** @var User $user */
         $user = access()->user();
 
@@ -51,10 +59,9 @@ class MobileNumberVerificationController extends Controller
             return redirect()->back()->withInput()->withErrors('The Code given is incorrect. Please try again. ');
         }
 
-        $user->mobile_verified = true;
-        $user->save();
+        $user->update(['mobile_verified' => true]);
 
-        return redirect()->route(homeRoute())->withSuccess('Your Mobile Number has been verified');
+        return redirect()->route(homeRoute())->withFlashDanger('Your Mobile Number has been verified');
     }
 
     /**
@@ -62,9 +69,10 @@ class MobileNumberVerificationController extends Controller
      *
      * @return mixed
      */
-    public function sendConfirmationSms(User $user)
+    public function sendConfirmationSms()
     {
-        $user->notify(new VerifyMobileNumberNotification(access()->user()));
+        $user = access()->user();
+        $user->notify(new VerifyMobileNumberNotification($user));
 
         return redirect()
             ->route('frontend.confirm.mobile.show')

@@ -55,6 +55,18 @@ $factory->state(User::class, 'unconfirmed', function () {
     ];
 });
 
+$factory->state(User::class, 'mobile_unverified', function () {
+    return [
+        'mobile_verified' => 0,
+    ];
+});
+
+$factory->state(User::class, 'mobile_verified', function () {
+    return [
+        'mobile_verified' => 1,
+    ];
+});
+
 /*
  * Roles
  */
