@@ -2,6 +2,7 @@
 
 namespace App\Events\Backend\Access\User;
 
+use App\Models\Access\User\User;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -12,7 +13,7 @@ class UserCreatedEvent
     use SerializesModels;
 
     /**
-     * @var
+     * @var User
      */
     public $user;
 
