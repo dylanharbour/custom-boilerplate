@@ -40,6 +40,12 @@ class EventServiceProvider extends ServiceProvider
          */
         \App\Listeners\Backend\Access\User\UserEventListener::class,
         \App\Listeners\Backend\Access\Role\RoleEventListener::class,
+
+        /*
+         * Shared Event Listeners (Event that can happen from both front or backend)
+         */
+        \App\Listeners\Shared\Access\User\UserEventListener::class,
+
     ];
 
     /**

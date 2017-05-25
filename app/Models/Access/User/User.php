@@ -79,7 +79,7 @@ class User extends Authenticatable
     /**
      * @return string
      */
-    private function generateMobileVerifcationCode()
+    public function generateMobileVerifcationCode()
     {
         return random_int(0, 9).random_int(0, 9).random_int(0, 9).random_int(0, 9);
     }

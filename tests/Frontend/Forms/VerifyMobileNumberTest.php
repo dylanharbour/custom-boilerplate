@@ -115,4 +115,72 @@ class VerifyMobileNumberTest extends BrowserKitTestCase
             VerifyMobileNumberNotification::class
         );
     }
+
+    public function testUserBecomesUnverifiedWhenNumberIsChangedOnUpdate()
+    {
+        //set the middleware to enabled.
+        Config::set('access.users.confirm_mobile', true);
+
+        Notification::fake();
+        $this->assertTrue($this->verifiedUser->isMobileNumberVerified());
+        $previousVerificationCode = $this->verifiedUser->mobile_verification_code;
+        $this->assertNotNull($previousVerificationCode);
+        $this->verifiedUser->update(['mobile_number' => '+27123456789']);
+
+        Notification::assertSentTo(
+            $this->verifiedUser,
+            VerifyMobileNumberNotification::class
+
+        );
+
+        $this->verifiedUser = $this->verifiedUser->fresh();
+        $this->assertFalse($this->verifiedUser->isMobileNumberVerified());
+        $this->assertNotSame($previousVerificationCode, $this->verifiedUser->mobile_verification_code);
+    }
+
+    public function testUserBecomesUnverifiedWhenNumberIsChangedOnSave()
+    {
+        //set the middleware to enabled.
+        Config::set('access.users.confirm_mobile', true);
+
+        Notification::fake();
+        $this->assertTrue($this->verifiedUser->isMobileNumberVerified());
+        $previousVerificationCode = $this->verifiedUser->mobile_verification_code;
+        $this->assertNotNull($previousVerificationCode);
+        $this->verifiedUser->mobile_number = '+27987654321';
+        $this->verifiedUser->save();
+
+        Notification::assertSentTo(
+            $this->verifiedUser,
+            VerifyMobileNumberNotification::class
+
+        );
+
+        $this->verifiedUser = $this->verifiedUser->fresh();
+        $this->assertFalse($this->verifiedUser->isMobileNumberVerified());
+        $this->assertNotSame($previousVerificationCode, $this->verifiedUser->mobile_verification_code);
+    }
+
+    public function testUsersIsUntouchedIfMiddlewareIsEnabledAndMobileNumberChanges()
+    {
+        //set the middleware to enabled.
+        Config::set('access.users.confirm_mobile', false);
+
+        Notification::fake();
+        $this->assertTrue($this->verifiedUser->isMobileNumberVerified());
+        $previousVerificationCode = $this->verifiedUser->mobile_verification_code;
+        $this->assertNotNull($previousVerificationCode);
+        $this->verifiedUser->mobile_number = '+2711111111';
+        $this->verifiedUser->save();
+
+        Notification::assertNotSentTo(
+            $this->verifiedUser,
+            VerifyMobileNumberNotification::class
+
+        );
+
+        $this->verifiedUser = $this->verifiedUser->fresh();
+        $this->assertTrue($this->verifiedUser->isMobileNumberVerified());
+        $this->assertSame($previousVerificationCode, $this->verifiedUser->mobile_verification_code);
+    }
 }
